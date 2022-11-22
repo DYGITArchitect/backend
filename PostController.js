@@ -1,10 +1,10 @@
 import Post from "./Post.js";
+import PostService from "./PostService.js";
 
 class PostController {
   async create(req, res) {
     try {
-      const { author, title, content, picture } = req.body;
-      const post = await Post.create({ author, title, content, picture });
+      const post = await PostService.create(req.body);
       res.json(post);
     } catch (error) {
       res.status(500).json(error);
@@ -13,8 +13,8 @@ class PostController {
 
   async getAll(req, res) {
     try {
-      const posts = await Post.find();
-      return res.json(posts);
+      const posts = await PostService.getAll();
+      res.json(posts);
     } catch (error) {
       res.status(500).json(error);
     }
@@ -22,12 +22,8 @@ class PostController {
 
   async getOne(req, res) {
     try {
-      const { id } = req.params;
-      if (!id) {
-        return res.status(400).json({ message: "id not found" });
-      }
-      const post = await Post.findById(id);
-      return res.json(post);
+      const post = await PostService.getOne(req.params.id);
+      res.json(post);
     } catch (error) {
       res.status(500).json(error);
     }
@@ -35,31 +31,19 @@ class PostController {
 
   async update(req, res) {
     try {
-      const post = req.body;
-      if (!post._id) {
-        return res.status(400).json({ message: "id not found" });
-      }
-      const updatedPost = await Post.findByIdAndUpdate(post._id, post, {
-        new: true,
-      });
-      return res.json(updatedPost);
+      const updatedPost = await PostService.update(req.body);
+      res.json(updatedPost);
     } catch (error) {
-      res.status(500).json(error);
+      res.status(500).json(error.message);
     }
   }
 
   async delete(req, res) {
     try {
-      const { id } = req.params;
-      if (!id) {
-        return res.status(400).json({ message: "id not found" });
-      }
-      const deletedPost = await Post.findByIdAndDelete(id, {
-        new: true,
-      });
-      return res.json(deletedPost);
+      const deletedPost = await PostService.delete(req.params.id);
+      res.json(deletedPost);
     } catch (error) {
-      res.status(500).json(error);
+      res.status(500).json(error.message);
     }
   }
 }
