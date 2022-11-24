@@ -14,6 +14,11 @@ class PostController {
   async getAll(req, res) {
     try {
       const posts = await PostService.getAll();
+      res.header("Access-Control-Allow-Origin", "*");
+      res.header(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept"
+      );
       res.json(posts);
     } catch (error) {
       res.status(500).json(error);

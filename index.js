@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import Post from "./Post.js";
 import router from "./router.js";
 import fileUpload from "express-fileupload";
+import parseJson from "./parseJson.js";
 
 const PORT = 5000;
 const DB_URL =
@@ -13,6 +14,7 @@ app.use(express.json());
 app.use(express.static("static"));
 app.use(fileUpload({}));
 app.use("/api", router);
+app.use(parseJson);
 
 async function startApp() {
   try {
