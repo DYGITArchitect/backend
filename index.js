@@ -5,6 +5,8 @@ import router from "./router.js";
 import fileUpload from "express-fileupload";
 // import parseJson from "./parseJson.js";
 // import cors from "cors";
+import swaggerUI from "swagger-ui-express";
+import swaggerDoc from "./openapi.json" assert { type: "json" };
 
 const PORT = 5000;
 const DB_URL =
@@ -14,6 +16,7 @@ const app = express();
 app.use(express.json());
 app.use(express.static("static"));
 app.use(fileUpload({}));
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDoc));
 app.use("/api", router);
 // app.use(cors());
 
