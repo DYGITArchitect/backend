@@ -3,7 +3,8 @@ import mongoose from "mongoose";
 import Post from "./Post.js";
 import router from "./router.js";
 import fileUpload from "express-fileupload";
-import parseJson from "./parseJson.js";
+// import parseJson from "./parseJson.js";
+// import cors from "cors";
 
 const PORT = 5000;
 const DB_URL =
@@ -14,7 +15,7 @@ app.use(express.json());
 app.use(express.static("static"));
 app.use(fileUpload({}));
 app.use("/api", router);
-app.use(parseJson);
+// app.use(cors());
 
 async function startApp() {
   try {
