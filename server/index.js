@@ -4,12 +4,15 @@ import fs from "fs"; // The Module is used for work with file system operations
 import path from "path"; // The Module is used for path working
 import mongoose from "mongoose"; // The Module is used to work witn MongoDB
 import Post from "./models/Post.js";
-import router from "./routers/router.js";
+import postRouter from "./routers/post-router.js";
+import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload"; // The Module is used to upload file
 import cors from "cors"; // The Module is used to response to different url or app
 import swaggerUI from "swagger-ui-express"; // The Module is used for documatation and response on localhost:PORT/api-docs
 import swaggerDoc from "./swagger/openapi.json" assert { type: "json" };
 import morgan from "morgan"; // This is a log REST API
+import userRouter from "./routers/user-router.js";
+import errorMiddleware from "./middlewares/error-middleware.js";
 
 dotenv.config();
 
@@ -28,11 +31,14 @@ const accessLogStream = fs.createWriteStream(
 const app = express();
 app.use(express.json());
 app.use(morgan("common", { stream: accessLogStream }));
+app.use(cookieParser());
 app.use(cors());
 app.use(express.static("static"));
 app.use(fileUpload({}));
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDoc));
-app.use("/api", router);
+app.use("/api", userRouter);
+app.use("/api", postRouter);
+app.use(errorMiddleware); // Error handle middleware must be the last
 
 async function startApp() {
   try {
