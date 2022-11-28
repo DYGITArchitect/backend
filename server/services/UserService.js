@@ -4,13 +4,14 @@ import { v4 as uuid } from "uuid";
 import mailService from "../services/MailService.js";
 import tokenService from "./TokenService.js";
 import UserDto from "../dtos/UserDto.js";
+import ApiError from "../exeptions/api-error.js";
 
 class UserService {
   async registration(email, password) {
     const condidate = await User.findOne({ email });
 
     if (condidate) {
-      throw new Error(`User with email: ${email} already exist`);
+      throw ApiError.badRequest(`User with email: ${email} already exist`);
     }
 
     const hashedPassword = await bcrypt.hash(password, 3);
@@ -20,7 +21,10 @@ class UserService {
       password: hashedPassword,
       activationLink,
     });
-    await mailService.sendActivationMail(email, activationLink);
+    await mailService.sendActivationMail(
+      email,
+      `${process.env.API_URL} + /api/activate/ + ${activationLink}`
+    );
     const userDto = new UserDto(user);
     const token = tokenService.generateTokens({ ...userDto });
 
@@ -29,6 +33,19 @@ class UserService {
       ...token,
       user: userDto,
     };
+  }
+
+  async activate(activationLink) {
+    const user = await User.findOne({ activationLink });
+
+    if (!user) {
+      throw ApiError.badRequest(
+        `User with link ${activationLink} doesn't exist`
+      );
+    }
+
+    user.isActivated = true;
+    await user.save();
   }
 }
 

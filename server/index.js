@@ -12,6 +12,7 @@ import swaggerUI from "swagger-ui-express"; // The Module is used for documatati
 import swaggerDoc from "./swagger/openapi.json" assert { type: "json" };
 import morgan from "morgan"; // This is a log REST API
 import userRouter from "./routers/user-router.js";
+import errorMiddleware from "./middlewares/error-middleware.js";
 
 dotenv.config();
 
@@ -37,6 +38,7 @@ app.use(fileUpload({}));
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDoc));
 app.use("/api", userRouter);
 app.use("/api", postRouter);
+app.use(errorMiddleware); // Error handle middleware must be the last
 
 async function startApp() {
   try {
