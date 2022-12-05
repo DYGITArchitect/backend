@@ -1,0 +1,12 @@
+::1 - - [05/Dec/2022:14:27:19 +0000] "GET /api/users HTTP/1.1" 401 47
+::1 - - [05/Dec/2022:14:27:38 +0000] "POST /api/login HTTP/1.1" 200 579
+::1 - - [05/Dec/2022:14:27:59 +0000] "GET /api/users HTTP/1.1" 200 218
+::1 - - [05/Dec/2022:14:28:28 +0000] "POST /api/logout HTTP/1.1" 200 38
+::1 - - [05/Dec/2022:14:28:34 +0000] "GET /api/users HTTP/1.1" 200 218
+::1 - - [05/Dec/2022:14:28:35 +0000] "GET /api/users HTTP/1.1" 200 218
+::1 - - [05/Dec/2022:14:29:43 +0000] "GET /api/posts HTTP/1.1" 200 1412
+::1 - - [05/Dec/2022:14:29:51 +0000] "PUT /api/posts HTTP/1.1" 200 126
+::1 - - [05/Dec/2022:14:29:57 +0000] "DELETE /api/posts/637ccfec75527eb2b6b243f0 HTTP/1.1" 200 4
+::1 - - [05/Dec/2022:14:30:05 +0000] "GET /api/posts/637cb7bd0798346a7b846a84 HTTP/1.1" 200 126
+::1 - - [05/Dec/2022:14:30:26 +0000] "GET /api/users HTTP/1.1" 200 218
+::1 - - [05/Dec/2022:14:32:18 +0000] "POST /api/registration HTTP/1.1" 400 70
